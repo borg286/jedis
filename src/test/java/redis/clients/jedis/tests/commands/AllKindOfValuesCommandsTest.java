@@ -629,36 +629,6 @@ public class AllKindOfValuesCommandsTest extends JedisCommandTestBase {
   }
 
   @Test
-  public void restoreReplace() {
-    // take a separate instance
-    Jedis jedis2 = new Jedis(hnp.getHost(), 6380, 500);
-    jedis2.auth("foobared");
-    jedis2.flushAll();
-
-    jedis2.set("foo", "bar");
-
-    Map<String, String> map = new HashMap<>();
-    map.put("a", "A");
-    map.put("b", "B");
-
-    jedis.hset("from", map);
-    byte[] serialized = jedis.dump("from");
-
-    try {
-      jedis2.restore("foo", 0, serialized);
-      fail("Simple restore on a existing key should fail");
-    } catch(JedisDataException e) {
-      // should be here
-    }
-    assertEquals("bar", jedis2.get("foo"));
-
-    jedis2.restoreReplace("foo", 0, serialized);
-    assertEquals(map, jedis2.hgetAll("foo"));
-
-    jedis2.close();
-  }
-
-  @Test
   public void pexpire() {
     long status = jedis.pexpire("foo", 10000);
     assertEquals(0, status);

@@ -193,11 +193,11 @@ public class JedisPoolWithCompleteCredentialsTest {
 
   @Test
   public void startWithUrlString() {
-    Jedis j = new Jedis("localhost", 6380);
+    Jedis j = new Jedis("localhost", 6379);
     j.auth("default", "foobared");
     j.select(2);
     j.set("foo", "bar");
-    JedisPool pool = new JedisPool("redis://default:foobared@localhost:6380/2");
+    JedisPool pool = new JedisPool("redis://default:foobared@localhost:6379/2");
     Jedis jedis = pool.getResource();
     assertEquals("PONG", jedis.ping());
     assertEquals("bar", jedis.get("foo"));
@@ -205,11 +205,11 @@ public class JedisPoolWithCompleteCredentialsTest {
 
   @Test
   public void startWithUrl() throws URISyntaxException {
-    Jedis j = new Jedis("localhost", 6380);
+    Jedis j = new Jedis("localhost", 6379);
     j.auth("default", "foobared");
     j.select(2);
     j.set("foo", "bar");
-    JedisPool pool = new JedisPool(new URI("redis://default:foobared@localhost:6380/2"));
+    JedisPool pool = new JedisPool(new URI("redis://default:foobared@localhost:6379/2"));
     Jedis jedis = pool.getResource();
     assertEquals("PONG", jedis.ping());
     assertEquals("bar", jedis.get("foo"));
@@ -217,12 +217,12 @@ public class JedisPoolWithCompleteCredentialsTest {
 
   @Test(expected = InvalidURIException.class)
   public void shouldThrowInvalidURIExceptionForInvalidURI() throws URISyntaxException {
-    JedisPool pool = new JedisPool(new URI("localhost:6380"));
+    JedisPool pool = new JedisPool(new URI("localhost:6379"));
   }
 
   @Test
   public void connectWithURICredentials() throws URISyntaxException {
-    JedisPool pool = new JedisPool("localhost", 6380);
+    JedisPool pool = new JedisPool("localhost", 6379);
     Jedis j = pool.getResource();
 
     j.auth("default", "foobared");
@@ -231,11 +231,11 @@ public class JedisPoolWithCompleteCredentialsTest {
     // create new user
     j.aclSetUser("alice", "on", ">alicePassword", "~*", "+@all");
 
-    Jedis jedis = new Jedis(new URI("redis://default:foobared@localhost:6380"));
+    Jedis jedis = new Jedis(new URI("redis://default:foobared@localhost:6379"));
     assertEquals("PONG", jedis.ping());
     assertEquals("bar", jedis.get("foo"));
 
-    Jedis jedis2 = new Jedis(new URI("redis://alice:alicePassword@localhost:6380"));
+    Jedis jedis2 = new Jedis(new URI("redis://alice:alicePassword@localhost:6379"));
     assertEquals("PONG", jedis2.ping());
     assertEquals("bar", jedis2.get("foo"));
 
@@ -245,8 +245,8 @@ public class JedisPoolWithCompleteCredentialsTest {
 
   @Test
   public void allowUrlWithNoDBAndNoPassword() throws URISyntaxException {
-    new JedisPool("redis://localhost:6380");
-    new JedisPool(new URI("redis://localhost:6380"));
+    new JedisPool("redis://localhost:6379");
+    new JedisPool(new URI("redis://localhost:6379"));
   }
 
   @Test

@@ -337,64 +337,6 @@ public class PublishSubscribeCommandsTest extends JedisCommandTestBase {
     pubsub.unsubscribe();
   }
 
-  @Test(expected = JedisConnectionException.class)
-  public void handleClientOutputBufferLimitForSubscribeTooSlow() throws InterruptedException {
-    final Jedis j = createJedis();
-    final AtomicBoolean exit = new AtomicBoolean(false);
-
-    final Thread t = new Thread(new Runnable() {
-      public void run() {
-        try {
-
-          // we already set jedis1 config to
-          // client-output-buffer-limit pubsub 256k 128k 5
-          // it means if subscriber delayed to receive over 256k or
-          // 128k continuously 5 sec,
-          // redis disconnects subscriber
-
-          // we publish over 100M data for making situation for exceed
-          // client-output-buffer-limit
-          String veryLargeString = makeLargeString(10485760);
-
-          // 10M * 10 = 100M
-          for (int i = 0; i < 10 && !exit.get(); i++) {
-            j.publish("foo", veryLargeString);
-          }
-
-          j.disconnect();
-        } catch (Exception ex) {
-        }
-      }
-    });
-    t.start();
-    try {
-      jedis.subscribe(new JedisPubSub() {
-        public void onMessage(String channel, String message) {
-          try {
-            // wait 0.5 secs to slow down subscribe and
-            // client-output-buffer exceed
-            // System.out.println("channel - " + channel +
-            // " / message - " + message);
-            Thread.sleep(100);
-          } catch (Exception e) {
-            try {
-              t.join();
-            } catch (InterruptedException e1) {
-            }
-
-            fail(e.getMessage());
-          }
-        }
-      }, "foo");
-    } finally {
-      // exit the publisher thread. if exception is thrown, thread might
-      // still keep publishing things.
-      exit.set(true);
-      if (t.isAlive()) {
-        t.join();
-      }
-    }
-  }
 
   private String makeLargeString(int size) {
     StringBuffer sb = new StringBuffer();

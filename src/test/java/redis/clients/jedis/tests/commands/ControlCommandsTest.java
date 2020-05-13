@@ -138,12 +138,6 @@ public class ControlCommandsTest extends JedisCommandTestBase {
   }
 
   @Test
-  public void waitReplicas() {
-    Long replicas = jedis.waitReplicas(1, 100);
-    assertEquals(1, replicas.longValue());
-  }
-
-  @Test
   public void clientPause() throws InterruptedException, ExecutionException {
     ExecutorService executorService = Executors.newFixedThreadPool(2);
     try {

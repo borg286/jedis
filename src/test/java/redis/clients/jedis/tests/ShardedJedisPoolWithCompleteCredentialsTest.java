@@ -198,7 +198,7 @@ public class ShardedJedisPoolWithCompleteCredentialsTest {
 
   @Test
   public void startWithUrlString() {
-    Jedis j = new Jedis("localhost", 6380);
+    Jedis j = new Jedis("localhost", 6379);
     j.auth("default", "foobared");
     j.set("foo", "bar");
 
@@ -207,7 +207,7 @@ public class ShardedJedisPoolWithCompleteCredentialsTest {
     j.set("foo", "bar");
 
     List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-    shards.add(new JedisShardInfo("redis://default:foobared@localhost:6380"));
+    shards.add(new JedisShardInfo("redis://default:foobared@localhost:6379"));
     shards.add(new JedisShardInfo("redis://default:foobared@localhost:6379"));
 
     GenericObjectPoolConfig redisConfig = new GenericObjectPoolConfig();
@@ -226,7 +226,7 @@ public class ShardedJedisPoolWithCompleteCredentialsTest {
 
   @Test
   public void startWithUrl() throws URISyntaxException {
-    Jedis j = new Jedis("localhost", 6380);
+    Jedis j = new Jedis("localhost", 6379);
     j.auth("default", "foobared");
     j.set("foo", "bar");
 
@@ -235,7 +235,7 @@ public class ShardedJedisPoolWithCompleteCredentialsTest {
     j.set("foo", "bar");
 
     List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-    shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6380")));
+    shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6379")));
     shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6379")));
 
     GenericObjectPoolConfig redisConfig = new GenericObjectPoolConfig();
@@ -254,7 +254,7 @@ public class ShardedJedisPoolWithCompleteCredentialsTest {
 
   @Test
   public void connectWithURICredentials() throws URISyntaxException {
-    Jedis j1 = new Jedis("localhost", 6380);
+    Jedis j1 = new Jedis("localhost", 6379);
     j1.auth("default", "foobared");
     j1.set("foo", "bar");
 
@@ -270,7 +270,7 @@ public class ShardedJedisPoolWithCompleteCredentialsTest {
     j2.aclSetUser("alice", "on", ">alicePassword", "~*", "+@all");
 
     List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-    shards.add(new JedisShardInfo(new URI("redis://alice:alicePassword@localhost:6380")));
+    shards.add(new JedisShardInfo(new URI("redis://alice:alicePassword@localhost:6379")));
     shards.add(new JedisShardInfo(new URI("redis://alice:alicePassword@localhost:6379")));
 
     GenericObjectPoolConfig redisConfig = new GenericObjectPoolConfig();
@@ -298,7 +298,7 @@ public class ShardedJedisPoolWithCompleteCredentialsTest {
     config.setBlockWhenExhausted(false);
 
     List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-    shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6380")));
+    shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6379")));
     shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6379")));
 
     ShardedJedisPool pool = new ShardedJedisPool(config, shards);
@@ -331,7 +331,7 @@ public class ShardedJedisPoolWithCompleteCredentialsTest {
     config.setBlockWhenExhausted(false);
 
     List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-    shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6380")));
+    shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6379")));
     shards.add(new JedisShardInfo(new URI("redis://default:foobared@localhost:6379")));
 
     ShardedJedisPool pool = new ShardedJedisPool(config, shards);

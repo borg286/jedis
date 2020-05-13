@@ -1233,7 +1233,7 @@ public class BinaryClient extends Connection {
   }
 
   public void georadiusReadonly(final byte[] key, final double longitude, final double latitude, final double radius, final GeoUnit unit) {
-    sendCommand(GEORADIUS_RO, key, toByteArray(longitude), toByteArray(latitude), toByteArray(radius),
+    sendCommand(GEORADIUS, key, toByteArray(longitude), toByteArray(latitude), toByteArray(radius),
       unit.raw);
   }
 
@@ -1245,7 +1245,7 @@ public class BinaryClient extends Connection {
 
   public void georadiusReadonly(final byte[] key, final double longitude, final double latitude, final double radius, final GeoUnit unit,
       final GeoRadiusParam param) {
-    sendCommand(GEORADIUS_RO, param.getByteParams(key, toByteArray(longitude), toByteArray(latitude),
+    sendCommand(GEORADIUS, param.getByteParams(key, toByteArray(longitude), toByteArray(latitude),
       toByteArray(radius), unit.raw));
   }
 
@@ -1254,7 +1254,7 @@ public class BinaryClient extends Connection {
   }
 
   public void georadiusByMemberReadonly(final byte[] key, final byte[] member, final double radius, final GeoUnit unit) {
-    sendCommand(GEORADIUSBYMEMBER_RO, key, member, toByteArray(radius), unit.raw);
+    sendCommand(GEORADIUSBYMEMBER, key, member, toByteArray(radius), unit.raw);
   }
 
   public void georadiusByMember(final byte[] key, final byte[] member, final double radius, final GeoUnit unit,
@@ -1264,7 +1264,7 @@ public class BinaryClient extends Connection {
 
   public void georadiusByMemberReadonly(final byte[] key, final byte[] member, final double radius, final GeoUnit unit,
       final GeoRadiusParam param) {
-    sendCommand(GEORADIUSBYMEMBER_RO, param.getByteParams(key, member, toByteArray(radius), unit.raw));
+    sendCommand(GEORADIUSBYMEMBER, param.getByteParams(key, member, toByteArray(radius), unit.raw));
   }
 
   public void moduleLoad(final byte[] path) {
@@ -1339,7 +1339,7 @@ public class BinaryClient extends Connection {
   }
 
   public void bitfieldReadonly(final byte[] key, final byte[]... arguments) {
-    sendCommand(BITFIELD_RO, joinParameters(key, arguments));
+    sendCommand(BITFIELD, joinParameters(key, arguments));
   }
 
   public void hstrlen(final byte[] key, final byte[] field) {
